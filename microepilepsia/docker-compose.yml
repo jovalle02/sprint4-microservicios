@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  auth-servicio:
+    build: ./auth-servicio
+    container_name: auth-servicio
+    ports:
+      - "8000:8000"
+    networks:
+      - micro-red
+
+  paciente-servicio:
+    build: ./paciente-servicio
+    container_name: paciente-servicio
+    ports:
+      - "8001:8001"
+    networks:
+      - micro-red
+
+  materiales-service:
+    build: ./materiales-service
+    container_name: materiales-service
+    ports:
+      - "5003:5003"
+    networks:
+      - micro-red
+
+  mri-service:
+    build: ./mri-service
+    container_name: mri-service
+    ports:
+      - "5004:5004"
+    networks:
+      - micro-red
+
+  gateway:
+    build: ./gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-servicio
+      - paciente-servicio
+      - materiales-service
+      - mri-service
+    networks:
+      - micro-red
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - gateway
+
+networks:
+  micro-red:
+    driver: bridge
