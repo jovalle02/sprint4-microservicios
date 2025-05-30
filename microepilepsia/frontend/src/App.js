@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [token, setToken] = useState("");
   const [logs, setLogs] = useState([]);
-  const apiUrl = "http://localhost:8080";
+  const apiUrl = "http://gateway:8080";
 
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
